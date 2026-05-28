@@ -34,10 +34,35 @@ def handle_tone_mode(args: argparse.Namespace) -> None:
             if args.freqs is None
             else args.freqs.strip()
         )
-        if duration_text and db_text and freq_text:
-            break
-        print("所有欄位都必須填寫，請重新輸入。")
-    output_path = run_tone_mode(duration_text=duration_text, db_text=db_text, freq_text=freq_text)
+
+        if not duration_text or not db_text or not freq_text:
+            print("所有欄位都必須填寫，請重新輸入。")
+            continue
+
+        try:
+            duration = float(duration_text)
+            db = float(db_text)
+            freqs = [float(freq.strip()) for freq in freq_text.split(",")]
+        except ValueError:
+            print("秒數、dBFS 和頻率都必須是數字，請重新輸入。")
+            continue
+
+        if duration <= 0:
+            print("秒數必須大於 0，請重新輸入。")
+            continue
+
+        if any(freq <= 0 for freq in freqs):
+            print("頻率必須大於 0，請重新輸入。")
+            continue
+
+        break
+
+    output_path = run_tone_mode(
+        duration_text=str(duration),
+        db_text=str(db),
+        freq_text=",".join(str(freq) for freq in freqs)
+    )
+
     print(f"已輸出 {output_path}")
 
 
