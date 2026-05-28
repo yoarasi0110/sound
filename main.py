@@ -28,7 +28,7 @@ def run_tts_mode(text: str | None) -> None:
 def handle_tone_mode(args: argparse.Namespace) -> None:
     while True:
         duration_text = input("請輸入秒數: ").strip() if args.duration is None else str(args.duration)
-        db_text = input("請輸入 dBFS，例如 -10(不可超過 0): ").strip() if args.db is None else str(args.db)
+        db_text = input("請輸入 dBFS，例如 -10(建議 -20 ~ -10): ").strip() if args.db is None else str(args.db)
         freq_text = (
             input("請輸入頻率，可用逗號分隔，例如 800 或 800,2400: ").strip()
             if args.freqs is None
